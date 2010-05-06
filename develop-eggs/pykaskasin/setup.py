@@ -9,7 +9,7 @@ setup(name='pykaskasin',
       long_description="""\
 """,
       classifiers=[], # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
-      keywords='scraping',
+      keywords='',
       author='Nathaniel Domingo',
       author_email='niel.domingo@gmail.com',
       url='',
