@@ -1,0 +1,109 @@
+The xpath module provides some functions and classes that enables the easy querying
+of XML/HTML documents using XPATH.
+
+>>> from pykaskasin.xpath import *
+>>> xml = """
+... 		<html>
+... 			<head>
+... 				<title>
+... 					My Document
+...					</title>
+... 			</head>
+... 			<body>
+... 				<h1 id="title">Document Body</h1>
+... 				<ul>
+... 					<li>Item 1</li>
+... 					<li>Item 2</li>
+... 					<li>Item 2</li>
+... 				</ul>
+... 			</body>
+...			</html>
+... 	"""
+...
+
+Given the basic XML document above, the xpath module provides a function ParseXML
+which accepts as its parameter the XML document in the form of a string. The function parses
+the XML document and returns KKNode object.
+
+>>> doc = ParseXML(xml)
+>>> isinstance(doc, KKNode)
+True
+
+Aside from ParseXML, there is also a specialized parser for HTML which tries to recover through
+broken XML.
+
+>>> doc2 ParseHTML(xml)
+>>> isinstance(doc2, KKNode)
+True
+
+The KKNode object returned by ParseXML is representative of the root node of the
+DOM tree of the XML document. The KKNode object has a method 'xpath' which allows the running
+of XPATH queries on the DOM.
+
+>>> o = doc.xpath("//title")
+>>> isinstance(o, KKNodeList)
+True
+
+The 'xpath' method returns a KKNodeList object. The KKNodeList object returned may contain one
+or more KKNode objects depending on the number of nodes that matches the XPATH query.
+
+>>> o = doc.xpath("//li")
+>>> len(o)
+3
+
+You can access individual nodes in the KKNodeList object by iterating or indexing the object. 
+
+>>> for o in doc.xpath("//li"):
+... 	print 'Node'
+... 
+Node
+Node
+Node
+
+>>> l = doc.xpath("//li")
+>>> len(l[:1])
+1
+
+The KKNodeList also has a method, 'first', which returns the first matching element.
+
+>>> isinstance(doc.xpath("//li").first(), KKNode)
+True
+
+The KKNodeList also has a method, 'xpath', which allows the running of XPATH queries on the 
+first KKNode element.
+
+>>> l1 = doc.xpath("//ul").xpath("li")
+>>> l2 = doc.xpath("//ul").first().xpath("li")
+>>> len(l1) == len(l2)
+True
+
+The KKNode object has a 'value' method which returns the value of the node.
+If the matched node is a TEXT node, the 'value' method returns the text value as a string.
+
+>>> doc.xpath("//title/text()").first().value()
+'My Document'
+
+If the matched node is an attribute, the 'value' method returns the value of the attribute as a string.
+
+>>> doc.xpath("//h1/@id").first().value()
+'title'
+
+If the matched node is a tag, the 'value' returns the tag name enclosed in some text.
+
+>>> doc.xpath("//h1").first().value()
+'TAG{h1}'
+
+The KKNodeList also has the 'value' method and just like it's 'xpath' method, it returns the value of the first KKNode. So the above statements can be rewritten in a simpler form as follows.
+
+>>> doc.xpath("//title/text()").value()
+'My Document'
+>>> doc.xpath("//h1/@id").value()
+'title'
+>>> doc.xpath("//h1").value()
+'TAG{h1}'
+
+
+The 'xpath' method accepts the 're:test' function in the XPATH statements.
+
+>>> len(doc.xpath("//li[re:test(., '^Item')]")) == 3
+True
