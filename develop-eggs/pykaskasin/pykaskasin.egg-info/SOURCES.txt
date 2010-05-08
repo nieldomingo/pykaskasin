@@ -8,3 +8,5 @@ pykaskasin.egg-info/entry_points.txt
 pykaskasin.egg-info/not-zip-safe
 pykaskasin.egg-info/paster_plugins.txt
 pykaskasin.egg-info/top_level.txt
+pykaskasin/xpath/__init__.py
+pykaskasin/xpath/xpath.py

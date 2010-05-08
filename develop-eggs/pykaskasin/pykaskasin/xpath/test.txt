@@ -32,7 +32,7 @@ True
 Aside from ParseXML, there is also a specialized parser for HTML which tries to recover through
 broken XML.
 
->>> doc2 ParseHTML(xml)
+>>> doc2 = ParseHTML(xml)
 >>> isinstance(doc2, KKNode)
 True
 
@@ -61,8 +61,8 @@ Node
 Node
 
 >>> l = doc.xpath("//li")
->>> len(l[:1])
-1
+>>> isinstance(l[1], KKNode)
+True
 
 The KKNodeList also has a method, 'first', which returns the first matching element.
 
@@ -88,10 +88,10 @@ If the matched node is an attribute, the 'value' method returns the value of the
 >>> doc.xpath("//h1/@id").first().value()
 'title'
 
-If the matched node is a tag, the 'value' returns the tag name enclosed in some text.
+If the matched node is a tag, the 'value' returns an empty string.
 
 >>> doc.xpath("//h1").first().value()
-'TAG{h1}'
+''
 
 The KKNodeList also has the 'value' method and just like it's 'xpath' method, it returns the value of the first KKNode. So the above statements can be rewritten in a simpler form as follows.
 
@@ -100,7 +100,7 @@ The KKNodeList also has the 'value' method and just like it's 'xpath' method, it
 >>> doc.xpath("//h1/@id").value()
 'title'
 >>> doc.xpath("//h1").value()
-'TAG{h1}'
+''
 
 
 The 'xpath' method accepts the 're:test' function in the XPATH statements.
